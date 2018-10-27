@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test Codeid</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+		<style type="text/css">
+			.help-block{
+				color: red;
+			}
+		</style>
+	</head>
+	<body ng-app="myApp" ng-controller="inputctrl">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		  <a class="navbar-brand" href="#">Saipul Anwar</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="#" ng-click="clickforminput()">Form Input <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="#" ng-click="clicklistdata()">List Data</a>
+		      </li>
+		    </ul>
+		  </div>
+		</nav>
+
+		<div class="container">
+			<div>
+				<div ng-style="myForm">
+					<h3 style="margin-top: 20px;">Form Input</h3>
+					<hr />
+					<div ng-class="myClass" role="alert" ng-style="myAlert" style="display: none">
+					  {{msg}}
+					</div>
+					<form>
+						<div class="form-group">
+							<label for="no_rek">Nomor Rekening</label>
+							<input type="hidden" name="id" ng-model="id" class="form-control">
+							<input type="text" name="no_rek" ng-model="no_rek" class="form-control" placeholder="Nomor Rekening">
+						</div>
+						<div class="form-group">
+							<label for="nama">Nama</label>
+							<input type="text" name="nama" ng-model="nama" class="form-control" placeholder="Nama">
+						</div>
+						<div class="form-group">
+							<label for="alamat">Alamat</label>
+							<textarea name="alamat" ng-model="alamat" class="form-control" placeholder="Alamat" rows="4"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="no_telp">No telepon</label>
+							<input type="text" name="no_telp" ng-model="no_telp" class="form-control" placeholder="No telepon">
+						</div>	
+						<button class="btn btn-primary" ng-click="insertdata()">Submit</button>
+						<button class="btn btn-danger" ng-click="reset()">Reset</button>
+					</form>
+				</div>
+				
+				<div ng-style="myTable" style="display: none;">
+					<h3 style="margin-top: 20px;">List Data</h3>
+					<hr />
+					<div ng-class="myClass" role="alert" ng-style="myAlert" style="display: none">
+					  {{msg}}
+					</div>
+					<table class="table">
+						<thead class="table-primary">
+							<tr>
+								<th>No</th>
+								<th>No Rekening</th>
+								<th>Nama</th>
+								<th>Alamat</th>
+								<th>Nomor Telepon</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="list in data">
+								<td>1</td>
+								<td>{{list.no_rek}}</td>
+								<td>{{list.nama}}</td>
+								<td>{{list.alamat}}</td>
+								<td>{{list.no_telp}}</td>
+								<td>
+									<button class="btn btn-warning btn-sm" ng-click="editList(list.id)">Edit</button>
+									<button ng-click="deleteList(list.id)" class="btn btn-danger btn-sm">Delete</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<hr />
+			<p class="text-center">Test CODE ID Saipul Anwar 2018</p>
+		</div>
+
+		<script type="text/javascript">
+			var app = angular.module('myApp', []);
+			app.controller('inputctrl', function($scope, $http){
+				
+				$scope.resetfield = function(){
+					$scope.id = 'simpan';
+					$scope.nama = '';
+					$scope.no_rek = '';
+					$scope.alamat = '';
+					$scope.no_telp = '';
+				}
+
+				$scope.reset = function(){
+					$scope.resetfield();
+					$scope.myAlert = {"display": "none"};
+				}
+
+				$scope.showhidediv = function(form, table){
+					$scope.myForm = {
+						"display": form
+					}
+
+					$scope.myTable = {
+						"display": table
+					}
+
+					$scope.myAlert = {
+						"display": "none"
+					};
+
+					$scope.resetfield();
+				}
+
+				$scope.clicklistdata = function(){
+					$scope.showhidediv('none', 'block');
+				}
+
+				$scope.clickforminput = function(){
+					$scope.showhidediv('block', 'none');
+				}
+
+				$scope.insertdata = function(){
+					$scope.myAlert = {"display": "none"};
+
+					if($scope.nama == '' || $scope.no_rek == '' || $scope.alamat == '' || $scope.no_telp == ''){
+						$scope.myAlert = {"display": "block"};
+						$scope.myClass = "alert alert-danger";
+						$scope.msg = "Field harus diisi";
+					}
+					else{
+						$http.post('http://localhost:5000/simpan', {'id': $scope.id, 'no_rek': $scope.no_rek, 'nama': $scope.nama, 'alamat': $scope.alamat, 'no_telp': $scope.no_telp}).success(function(data){
+							$scope.myAlert = {"display": "block"};
+							$scope.myClass = "alert alert-primary";
+							$scope.msg = data.msg;
+							$scope.displayList();
+							$scope.resetfield();
+						})
+					}
+				}
+
+				$scope.displayList = function(){
+					$http.get('http://localhost:5000/').success(function(data){
+						$scope.data = data;
+					})
+				}
+
+				$scope.deleteList = function(id){
+					$scope.myAlert = {"display": "none"};
+
+					$http.get("http://localhost:5000/delete/"+id).success(function(data){
+						$scope.myAlert = {"display": "block"};
+						$scope.myClass = "alert alert-primary";
+						$scope.msg = data.msg;
+						$scope.displayList();
+						$scope.resetfield();
+					})
+				}
+
+				$scope.editList = function(id){
+					$scope.showhidediv('block', 'none');
+					$http.get("http://localhost:5000/edit/"+id).success(function(data){
+						$scope.id = data[0].id;
+						$scope.no_rek = data[0].no_rek;
+						$scope.nama = data[0].nama;
+						$scope.alamat = data[0].alamat;
+						$scope.no_telp = data[0].no_telp;
+					})
+				}
+
+				$scope.resetfield();
+				$scope.displayList();
+			})
+		</script>
+	</body>
+</html>
